@@ -8,6 +8,10 @@ class DB
   def movies_of_director(director)
     @driver.session { |session| session.run('MATCH (movie:MOVIE)=[:DIRECTED]-(:Person {name: $name}) RETURN movie.title', director: director) }
   end
+
+  def colleagues_of_person(person_name)
+    @driver.session { |session| session.run('(person:Person {name: $person_name})-[relatedTo]->(m)<-[relatedTo]-(colleague) RETURN colleague.name', person_name: person_name) }
+  end
 end
 
 def handle_input(input)
@@ -15,15 +19,15 @@ def handle_input(input)
   case input
   in ['director', director]
     db.movies_of_director(director)
-  in ['colleagues', person]
-    "Here will be all people who worked with #{person}"
+  in ['colleagues', person_name]
+    db.colleagues_of_person(person_name)
   in ['actors_count', movie]
     "Here will be count of actors who took part in #{movie}"
   in ['help']
     """
     Flags for app.rb:
     director <director> -- finds all movies of director
-    colleagues <person> -- finds all people who worked with person
+    colleagues <person_name> -- finds all people who worked with person
     actors_count <movie> -- how many actors took part in movie
     help -- puts help
     """
