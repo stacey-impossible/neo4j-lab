@@ -1,3 +1,11 @@
+require 'neo4j-ruby-driver'
+
+class DB
+  def initialize()
+    @driver = Neo4j::Driver::GraphDatabase.driver(ENV['uri'], Neo4j::Driver::AuthTokens.basic(ENV['user'], ENV['password']))
+  end
+end
+
 def handle_input(input)
   case input
   in ['director', director]
