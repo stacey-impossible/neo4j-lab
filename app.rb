@@ -1,8 +1,8 @@
-require 'neo4j-ruby-driver'
+require 'neo4j/driver'
 
 class DB
   def initialize()
-    @driver = Neo4j::Driver::GraphDatabase.driver(ENV['uri'], Neo4j::Driver::AuthTokens.basic(ENV['user'], ENV['password']))
+    @driver = Neo4j::Driver::GraphDatabase.driver(ENV['NEO4J_URI'], Neo4j::Driver::AuthTokens.basic(ENV['NEO4J_USER'], ENV['NEO4J_PASSWORD']))
   end
 end
 
